@@ -1,0 +1,519 @@
+
+#include <iostream>
+#include <vector>
+#include <ctime>
+#include <Windows.h>
+#include <conio.h>
+using namespace std;
+#define Numbers 15
+#define Lines 7
+#define Columns 4
+
+int Char[Numbers][Lines][Columns] = {
+	{
+		{ 1, 1, 1, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 1, 1, 1 }
+
+	},
+	{
+
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 1, 1 },
+		{ 0, 1, 0, 1 },
+		{ 1, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 }
+	},
+	{
+		{ 1, 1, 1, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 1, 1, 1, 1 },
+		{ 1, 0, 0, 0 },
+		{ 1, 0, 0, 0 },
+		{ 1, 1, 1, 1 }
+	},
+	{
+		{ 1, 1, 1, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 1, 1, 1, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 1, 1, 1, 1 }
+
+	},
+	{
+		{ 1, 0, 0, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 1, 1, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 }
+	},
+	{
+		{ 1, 1, 1, 1 },
+		{ 1, 0, 0, 0 },
+		{ 1, 0, 0, 0 },
+		{ 1, 1, 1, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 1, 1, 1, 1 }
+	},
+	{
+		{ 1, 1, 1, 1 },
+		{ 1, 0, 0, 0 },
+		{ 1, 0, 0, 0 },
+		{ 1, 1, 1, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 1, 1, 1 }
+	},
+	{
+		{ 1, 1, 1, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 }
+	},
+	{
+		{ 1, 1, 1, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 1, 1, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 1, 1, 1 }
+	},
+	{
+		{ 1, 1, 1, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 1, 1, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 1, 1, 1, 1 }
+	},
+	{
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 0, 0, 0, 1 },
+		{ 1, 1, 1, 1 }
+	},
+	{
+		{ 1, 1, 1, 0 },
+		{ 1, 0, 0, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 0, 0, 1 },
+		{ 1, 1, 1, 0 }
+	},
+	{
+		{ 1, 0, 0, 1 },
+		{ 1, 0, 1, 0 },
+		{ 1, 1, 0, 0 },
+		{ 1, 1, 0, 0 },
+		{ 1, 1, 0, 0 },
+		{ 1, 0, 1, 0 },
+		{ 1, 0, 0, 1 }
+	},
+	{
+		{ 1, 1, 1, 1 },
+		{ 1, 1, 1, 1 },
+		{ 0, 1, 1, 0 },
+		{ 0, 1, 1, 0 },
+		{ 0, 1, 1, 0 },
+		{ 0, 1, 1, 0 },
+		{ 0, 1, 1, 0 }
+	},
+	{
+		{ 0, 0, 0, 0 },
+		{ 0, 0, 0, 0 },
+		{ 0, 0, 0, 0 },
+		{ 0, 0, 0, 0 },
+		{ 0, 0, 0, 0 },
+		{ 0, 0, 0, 0 },
+		{ 0, 0, 0, 0 }
+	}
+};
+
+enum cards{ _2 = 2, _3, _4, _5, _6, _7, _8, _9, _10, Jack = 10, Queen = 10, King = 10, Ace };
+
+class Player{
+
+public:
+
+	Player(){
+		bet = 0;
+		Sum1 = 0;
+	}
+
+	virtual	int setBet(){
+		cout << "Input your bet" << endl;
+		cin >> bet;
+		cout << "Your bet is " << bet << " dollars" << endl;
+		return bet;
+	}
+
+	int SetBet(){
+		bet *= 2;
+		return bet;
+	}
+
+
+	int getBet(){
+		return bet;
+	}
+
+
+	~Player(){}
+
+
+	int GiveIn(){
+		return	bet /= 2;
+	}
+
+	int result(int Sum){
+
+		Sum1 += Sum;
+		return Sum1;
+	}
+
+	int JustResult(){
+		return Sum1;
+	}
+
+protected:
+
+	int bet;
+	int Sum1;
+
+
+
+};
+
+
+
+class Computer :public Player{
+
+public:
+
+	Computer(){}
+
+	virtual	int setBet(){
+		bet = rand() % 1100 + 100;
+		return bet;
+	}
+
+	~Computer(){}
+
+
+
+
+};
+
+
+class Decks{
+
+public:
+	Decks(){}
+
+protected:
+	int Choise;
+	int Choise1;
+	int Value;
+	char Char1[Numbers][Lines][Columns];
+	int line1, line2;
+	int column1, column2;
+	int Color;
+
+
+
+	void PrintSecondCard(){
+		for (int j = 0; j < Lines; j++){
+			for (int k = 0; k < Columns; k++){
+				if (Choise1 == 1) {
+					if (Char[Choise1 - 1][j][k])   Char1[Choise1 - 1][j][k] = char(219);
+					else  Char1[Choise1 - 1][j][k] = char(32);
+				}
+				else{
+					{
+						if (Char[Choise1][j][k])   Char1[Choise1][j][k] = char(219);
+						else  Char1[Choise1][j][k] = char(32);
+					}
+
+				}
+			}
+		}
+		Paint2();
+
+	}
+
+	void Paint2(){
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		line2 = 4;
+		column2 = 21;
+		gotoXY(column2, line2);
+		for (int j = 0; j < Lines; j++, line2++, gotoXY(column2, line2)){
+			for (int k = 0; k < Columns; k++){
+				if (Color == 0) { SetConsoleTextAttribute(hConsole, (WORD)((15 << 4) | 0)); }
+				if (Color == 1) { SetConsoleTextAttribute(hConsole, (WORD)((15 << 4) | 12)); }
+				if (Color == 2) { SetConsoleTextAttribute(hConsole, (WORD)((15 << 4) | 3)); }
+				if (Color == 3) { SetConsoleTextAttribute(hConsole, (WORD)((15 << 4) | 2)); }
+				if (Choise1 == 1) {
+					cout << Char1[Choise1 - 1][j][k];
+				}
+				else cout << Char1[Choise1][j][k];
+			}
+		}
+		SetConsoleTextAttribute(hConsole, (WORD)((15 << 4) | 0));
+
+	}
+
+	void PrintFirstCard(){
+
+		for (int j = 0; j < Lines; j++){
+			for (int k = 0; k < Columns; k++){
+				if (Choise1 == 1){
+					if (Char[Choise1][j][k])   Char1[Choise1][j][k] = char(219);
+					else  Char1[Choise1][j][k] = char(32);
+				}
+				else{
+					if (Char[Numbers - 1][j][k])   Char1[Numbers - 1][j][k] = char(219);
+					else  Char1[Numbers - 1][j][k] = char(32);
+				}
+			}
+		}
+		Paint1();
+
+	}
+
+	void Paint1(){
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		line1 = 4;
+		column1 = 15;
+		gotoXY(column1, line1);
+		for (int j = 0; j < Lines; j++, line1++, gotoXY(column1, line1)){
+			for (int k = 0; k < Columns; k++){
+				if (Color == 0) { SetConsoleTextAttribute(hConsole, (WORD)((15 << 4) | 0)); }
+				if (Color == 1) { SetConsoleTextAttribute(hConsole, (WORD)((15 << 4) | 12)); }
+				if (Color == 2) { SetConsoleTextAttribute(hConsole, (WORD)((15 << 4) | 3)); }
+				if (Color == 3) { SetConsoleTextAttribute(hConsole, (WORD)((15 << 4) | 2)); }
+				if (Choise1 == 1) {
+					cout << Char1[Choise1][j][k];
+				}
+				else cout << Char1[Numbers - 1][j][k];
+			}
+		}
+		SetConsoleTextAttribute(hConsole, (WORD)((15 << 4) | 0));
+	}
+
+
+	void gotoXY(int column, int line)   // Set Cursor position;  
+	{
+		COORD coord;
+		coord.X = column;
+		coord.Y = line;
+		SetConsoleCursorPosition(
+			GetStdHandle(STD_OUTPUT_HANDLE),
+			coord
+			);
+
+	}
+
+};
+
+
+
+
+
+class Cards : public Decks{
+
+
+	vector <int> spades;
+	vector <int> hearts;
+	vector <int> diamonds;
+	vector <int> clubs;
+	vector <int>::iterator it;
+
+
+	void Initial(){
+		for (unsigned int i = 0; i<14; i++){
+			//spades[i] = clubs[i] = diamonds[i] = hearts[i] = i + 1;
+			spades.insert(spades.end(), i + 1);
+			clubs.insert(clubs.end(), i + 1);
+			diamonds.insert(diamonds.end(), i + 1);
+			hearts.insert(hearts.end(), i + 1);
+		}
+	}
+
+
+public:
+
+	Cards(){
+		spades.reserve(14);
+		hearts.reserve(14);
+		diamonds.reserve(14);
+		clubs.reserve(14);
+		Initial();
+	}
+
+
+
+
+	void setCard(){
+
+		int Suit;
+		int Number = rand() % 4;
+		Color = Number;
+		switch (Number){
+		case 0:  Suit = spades.size() - 1;  if (Suit == 0) { setCard(); } Choise = rand() % Suit;
+			Choise1 = spades[Choise]; getValue(); PrintFirstCard(); PrintSecondCard();
+			it = spades.begin() + Choise; spades.erase(it); vector <int>(spades).swap(spades); break;
+
+		case 1:  Suit = hearts.size() - 1;  if (Suit == 0) { setCard(); } Choise = rand() % Suit;
+			Choise1 = hearts[Choise]; getValue();  PrintFirstCard(); PrintSecondCard();
+			it = hearts.begin() + Choise; hearts.erase(it); vector <int>(hearts).swap(hearts); break;
+		case 2: Suit = diamonds.size() - 1; if (Suit == 0) { setCard(); }Choise = rand() % Suit;  Choise1 = diamonds[Choise]; getValue(); PrintFirstCard(); PrintSecondCard();
+			it = diamonds.begin() + Choise; diamonds.erase(it); vector <int>(diamonds).swap(diamonds); break;
+		case 3:  Suit = clubs.size() - 1; if (Suit == 0) { setCard(); } Choise = rand() % Suit;  Choise1 = clubs[Choise]; getValue(); PrintFirstCard(); PrintSecondCard();
+			it = clubs.begin() + Choise; clubs.erase(it); vector <int>(clubs).swap(clubs); break;
+
+		}
+	}
+
+
+
+	int getValue(){
+		if ((Choise1 == 1) || (Choise1 == 10) || (Choise1 == 11) || (Choise1 == 12)) Value = 10;
+		if (Choise1 == 13) Value = 11;
+		for (int i = 2; i < 10; i++){
+			if (Choise1 == i) Value = i;
+		}
+		return Value;
+	}
+
+};
+
+class Game{
+
+	Cards card;
+	Player player;
+	Computer computer;
+	bool Flag;
+	bool FlagFinalPlayer;
+	bool FlagFinalComputer;
+
+
+public:
+	Game(){
+		Flag = true;
+		FlagFinalPlayer = false;
+		FlagFinalComputer = false;
+	}
+
+
+	void game(){
+		player.setBet();
+		computer.setBet();
+		cout << "Your card" << endl;
+		card.setCard();
+		player.result(card.getValue());
+		system("pause");
+		system("cls");
+		cout << "Your card" << endl;
+		card.setCard();
+		cout << "Player result is: " << player.result(card.getValue()) << endl;
+		system("pause");
+		system("cls");
+		cout << "Computer card" << endl;
+		card.setCard();
+		cout << endl;
+		computer.result(card.getValue());
+		system("pause");
+		system("cls");
+		cout << "Computer card" << endl;
+		card.setCard();
+		cout << "Computer result is: " << computer.result(card.getValue()) << endl;
+		system("pause");
+		system("cls");
+		//system("pause");
+		EndOfGame();
+		FinalResults();
+	}
+
+	void EndOfGame(){
+		for (;;){
+			system("cls");
+			if (player.JustResult() == 21) { cout << "Player win!" << "You win " << (1.5*(player.getBet())) << endl;  return; }
+			if (computer.JustResult() == 21) { cout << "Computer win! You've just lost all your money!" << endl;  return; }
+			cout << "Make your choise! Press 1 to pass the lead, \nPress 2 to double your bet, \nPress 3 to give in!, \nPress 4 to get one more card!" << endl;
+			Flag = true;
+			switch (_getch()){
+			case '1':FlagFinalPlayer = true; break;
+			case '2': player.SetBet(); cout << "Your bet is: " << player.getBet() << endl; Flag = false; break;
+			case '3': player.GiveIn(); cout << "Your bet is:  " << player.getBet() << endl; Flag = false; return;
+			case '4': card.setCard(); cout << "New player's result is: " << player.result(card.getValue()) << endl; break;
+			default: cout << "It's no action with this choise! Try again!" << endl; Flag = false; break;
+			}
+			if (Flag == false) continue;
+			if (computer.JustResult() < 16) { card.setCard(); computer.result(card.getValue()); cout << " \n\nJust computer result  " << computer.JustResult() << endl; }
+			else FlagFinalComputer = true;
+			if (FlagFinalComputer == true && FlagFinalPlayer == true) break;
+			system("pause");
+		}
+
+
+	}
+
+	void FinalResults(){
+
+		if (player.JustResult() == 21) { cout << "Player win!" << "You win " << (1.5*(player.getBet())) << endl;  return; }
+		if (computer.JustResult() == 21) { cout << "Computer win! You've just lost all of your money!" << endl;  return; }
+		if (player.JustResult() == computer.JustResult()) cout << "Nobody's win! You have your money back  " << player.getBet() << " dollars back" << endl;
+		if (player.JustResult()<21 && player.JustResult()>computer.JustResult()) cout << "Player win!" << (1.5*(player.getBet())) << endl;
+		if (computer.JustResult()<21 && computer.JustResult()>player.JustResult()) cout << "Computer win!" << "You've just lost all of your money!" << endl;
+		if (player.JustResult() > 21 && computer.JustResult() < 21) cout << "Computer win!" << "You've just lost all of your money!" << endl;
+		if (computer.JustResult()>21 && player.JustResult() < 21) cout << "Player win!" << (1.5*(player.getBet())) << endl;
+		if (computer.JustResult()>21 && player.JustResult() > 21){
+			if (player.JustResult() < computer.JustResult()) cout << "Player win!" << (1.5*(player.getBet())) << endl;
+			else cout << "Computer win!" << "You've just lost all of your money!" << endl;
+
+		}
+	}
+
+};
+
+int main(){
+	srand((unsigned)time(NULL));
+	system("color F0");
+	char Key;
+	while (true){
+		Game game;
+		game.game();
+		cout << "Do you want to start new game? Press Y to continue, press N to exit the game" << endl;
+		cin >> Key;
+		switch (Key)
+		{
+		case 'Y':
+		case 'y': break;
+		default: return 0;
+		}
+		system("cls");
+	}
+	return 0;
+}
+

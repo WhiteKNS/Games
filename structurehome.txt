@@ -1,0 +1,324 @@
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <algorithm>
+#include <iomanip>
+#include <conio.h>
+#include <iterator>
+using namespace std;
+
+class VideoShop{
+	struct Shop{
+
+		string Film;
+		string Director;
+		string Genre;
+		int Rating;
+		int Year;
+	};
+	Shop shop[20];
+	int Number, Rating, Year, counter, l1;
+	unsigned int l6;
+	int NumberArray[5];
+	int Flag[6];
+	vector <int>::iterator it1;
+	vector <unsigned int> n;
+	vector <int> vectorMerged;
+	vector <int>::iterator it3;
+	vector <int> dir;
+	vector <int>::iterator itd;
+	vector <int> genre;
+	vector <int>::iterator itg;
+	vector <int> year, rating;
+	vector <int>::iterator ity, itr;
+	
+	vector <int>::iterator it; //iterator
+	vector <int> common;
+
+	string Director, Genre, Name;
+	
+
+	string	FilmSearch(){
+		cout << "Input name of film!" << endl;
+		cin >> Name;
+		for (unsigned int i = 0; i < Name.size(); i++){
+			if ((Name.at(i) >= char(65)) && (Name.at(i) <= char(90))) Name.at(i) += 32;
+		}
+		return Name;
+	}
+
+	void CheckName(){
+		Flag[0] = 0;
+		unsigned int j = 0;
+		while (j < (5 + l6)){
+			if (shop[j].Film == Name) { Flag[0] = 1; break; }
+			j++;
+		}
+		if (Flag[0] == 1) {
+			it1 = vectorMerged.begin();
+			vectorMerged.emplace(it1, j);
+			}
+	}
+	void CheckDirector(){
+		counter = 0;
+		Flag[1] = 0;
+		unsigned int j = 0;
+		while (j < (5 + l6)){
+			if (shop[j].Director == Director) { Flag[1] = 1; }
+			if (Flag[1] == 1) {
+				;
+				itd = dir.begin() + counter; dir.emplace(itd, j);  counter++; Flag[1] = 0;
+			}
+			j++;
+		}
+	}
+	void CheckGenre(){
+		counter = 0;
+		Flag[2] = 0;
+		unsigned int j = 0;
+		while (j < (5 + l6)){
+			if (shop[j].Genre == Genre) { Flag[2] = 1; }
+			if (Flag[2] == 1) {
+				;
+				itg = genre.begin() + counter; genre.emplace(itg, j);  counter++; Flag[2] = 0;
+			}
+			j++;
+		}
+	}
+
+	void CheckRating(){
+		counter = 0;
+		Flag[3] = 0;
+		unsigned int j = 0;
+		while (j < (5 + l6)){
+			if (shop[j].Rating == Rating) { Flag[3] = 1; }
+			if (Flag[3] == 1) {
+				itr = rating.begin() + counter; rating.emplace(itr, j);  counter++; Flag[3] = 0;
+			}
+			j++;
+		}
+	}
+
+	void CheckYear(){
+		counter = 0;
+		Flag[4] = 0;
+		unsigned int j = 0;
+		while (j < (5 + l6)){
+			if (shop[j].Year == Year) { Flag[4] = 1; }
+			if (Flag[4] == 1) {
+				;
+				ity = year.begin() + counter; year.emplace(ity, j);  counter++; Flag[4] = 0;
+			}
+			j++;
+		}
+	}
+	string DirectorSearch(){
+		cout << "Input director of film!" << endl;
+		cin >> Director;
+		for (unsigned int i = 0; i < Director.size(); i++){
+			if ((Director.at(i) >= char(65)) && (Director.at(i) <= char(90))) Director.at(i) += 32;
+		}
+		return Director;
+	}
+
+	string GenreSearch(){
+		cout << "Input genre of film!" << endl;
+		cin >> Genre;
+		for (unsigned int i = 0; i < Genre.size(); i++){
+			if ((Genre.at(i) >= char(65)) && (Genre.at(i) <= char(90))) Genre.at(i) += 32;
+		}
+		return Genre;
+	}
+	int RatingSearch(){
+		cout << "Input rating of film!" << endl;
+		cin >> Rating;
+		return Rating;
+	}
+	int YearSearch(){
+		cout << "Input year of film!" << endl;
+		cin >> Year;
+		return Year;
+	}
+
+public:
+		VideoShop(){
+	
+			for (int i = 0; i < 6; i++){
+				Flag[i] = 0;}
+			l1=100;
+			l6 = 0;
+			counter = 0;
+			shop[0].Film = "freddy_krueger";
+			shop[0].Director = "wes_craven";
+			shop[0].Genre = "nightmare";
+			shop[0].Rating = 7;
+			shop[0].Year = 1988;
+			shop[1].Film = "harry_potter";
+			shop[1].Director = "chris_columbus";
+			shop[1].Genre = "fantasy";
+			shop[1].Rating = 5;
+			shop[1].Year = 2001;
+			shop[2].Film = "the_shawshank_redemption";
+			shop[2].Director = "francis_ford_coppola";
+			shop[2].Genre = "drama";
+			shop[2].Rating = 1;
+			shop[2].Year = 1994;
+			shop[3].Film = "forrest_gump";
+			shop[3].Director = "robert_zemeckis";
+			shop[3].Genre = "comedy";
+			shop[3].Rating = 3;
+			shop[3].Year = 1994;
+			shop[4].Film = "schindler's_list";
+			shop[4].Director = "steven_spielberg";
+			shop[4].Genre = "drama";
+			shop[4].Rating = 4;
+			shop[4].Year = 1993;
+		}
+
+
+		void Search(){
+			int k = 0;
+			int k1 = 0;
+			cout << "What search you want to do? You can organize your search by many parameters!\n\n When you want to stop, press any SYMBOL key!\n\n Press 1, if you want to search by film name\n"
+				" Press 2, to search by director\n Press 3, to search by genre\n"
+				" Press 4, to search by rating\n Press 5 to search by year\n" << endl;
+			for (int i = 0; i < 5; i++){
+				cin >> NumberArray[i]; k++;
+				if (cin.fail()) { k--; cin.clear(); cin.sync(); break; }
+			}
+			vector<int> vec1(5+l6);
+			vector <int> vec(NumberArray, NumberArray + k); // put array into the vector
+			sort(vec.begin(), vec.end());
+			it = unique(vec.begin(), vec.end()); //delete elements
+			vec.resize(it - vec.begin());  // new vector
+			unsigned int k2 = vec1.size()+l6;
+			cout << "right" << endl;
+			unsigned int m = k2 + l6;
+			for (unsigned int i = 0; i < vec1.size(); i++){
+				vec1[i] = i;
+			}
+			if (!vec.empty()){ MainFunk(vec, vec1); vec.erase(vec.begin(), vec.end()); vec1.erase(vec1.begin(), vec1.end());  return; }
+			else cout << "You didn't make a choice!!!" << endl;
+			}
+	
+
+		void MainFunk(vector <int> vec, vector <int> vec1){
+			vector <int> vec2=vec1;
+			for (unsigned int i = 0; i < vec.size(); i++){
+				if (1 == vec[i])	{
+					cout << "You'll try to search by film name" << endl;  FilmSearch(); CheckName(); vec1 = vectorMerged;
+
+				}
+					if (2 == vec[i])	{
+						cout << "You'll try to search by director" << endl; DirectorSearch(); CheckDirector(); sort(vec1.begin(), vec1.end()); sort(dir.begin(), dir.end()); vector<int> v_intersection;
+						set_intersection(vec1.begin(), vec1.end(), dir.begin(), dir.end(), back_inserter(v_intersection)); vec1 = v_intersection;
+						
+					}
+					if (3 == vec[i])	{
+						cout << "You'll try to search by genre" << endl;  GenreSearch();  CheckGenre();  sort(vec1.begin(), vec1.end()); sort(genre.begin(), genre.end()); vector<int> v_intersection;
+						set_intersection(vec1.begin(), vec1.end(), genre.begin(), genre.end(), back_inserter(v_intersection));
+						vec1 = v_intersection;
+					}
+					if (4 == vec[i])	{
+						cout << "You'll try to search by rating" << endl; RatingSearch(); CheckRating(); sort(vec1.begin(), vec1.end()); sort(rating.begin(), rating.end()); vector<int> v_intersection;
+						set_intersection(vec1.begin(), vec1.end(), rating.begin(), rating.end(), back_inserter(v_intersection)); vec1 = v_intersection;
+		
+					}
+					if (5 == vec[i])	{
+						cout << "You'll try to search by year" << endl; YearSearch(); CheckYear(); sort(vec1.begin(), vec1.end()); sort(year.begin(), year.end()); vector<int> v_intersection;
+						set_intersection(vec1.begin(), vec1.end(), year.begin(), year.end(), back_inserter(v_intersection));	vec1 = v_intersection;
+					}
+				}
+			if (vec1.empty()) { cout << "It's no common elements!" << endl; vec1.clear(); Delete();  return; }
+				sort(vec1.begin(), vec1.end());
+				it1 = (unique(vec1.begin(), vec1.end()));
+				vec1.resize(it1 - vec1.begin());
+				while (1){
+					if (vec1.empty()) break;
+					int k = vec2.size();
+					int m = k + l6;
+					for (unsigned int i = 0; i < vec2.size(); i++){
+						if ((vec1[i] >= 0) && (vec1[i] < 25)) { n.insert(n.end(), vec1[i]);  vec1[i] = 100; break; }
+						if (vec1[i] == 60) { break; }
+						if (vec1[i] == 100) break;
+					}
+					if (n.empty()) break;
+					Print();
+					n.clear();
+					vec1.erase(vec1.begin());
+				}
+				cout << "right!" << endl;
+				vec1.clear();
+				Delete();
+				return;
+			}
+	
+		void Delete(){
+			dir.clear();
+			vectorMerged.clear();
+			genre.clear();
+			rating.clear();
+			year.clear();
+		}
+		void Print(){
+			cout << "\n" << endl;
+			vector <int> vec1(5 + l6);
+			for (unsigned int i = 0; i < vec1.size(); i++){
+				if (i == n.at(0)){
+					cout.setf(ios::left);
+					cout.width(25);
+					cout << shop[i].Film;
+					cout.setf(ios::left);
+					cout.width(25); 
+					cout<< shop[i].Director;
+					cout.setf(ios::left);cout.width(15);cout << shop[i].Genre;
+					cout.setf(ios::left);cout.width(15);cout << shop[i].Rating;
+					cout.setf(ios::left);cout.width(15);cout<< shop[i].Year << endl;	}
+			}
+		}
+		void AddElements(){
+			cout << "Input film name!" << endl;
+			cin >> shop[5 + l6].Film;
+			cout << "Inout film director" << endl;
+			cin >> shop[5 + l6].Director;
+			cout << "Input film genre" << endl;
+			cin >> shop[5 + l6].Genre;
+			cout << "Input rating of the film" << endl;
+			cin >> shop[5 + l6].Rating;
+			cout << "Input year of the film" << endl;
+			cin >> shop[5 + l6].Year;
+			l6++;
+		}
+		void PrintAll(){
+			cout << "\n" << endl;
+			for (unsigned int i = 0; i <(5+l6); i++){
+					cout.setf(ios::left);
+					cout.width(25);
+					cout << shop[i].Film;
+					cout.setf(ios::left);
+					cout.width(25);
+					cout << shop[i].Director;
+					cout.setf(ios::left); cout.width(15); cout << shop[i].Genre;
+					cout.setf(ios::left); cout.width(15); cout << shop[i].Rating;
+					cout.setf(ios::left); cout.width(15); cout << shop[i].Year << endl;
+				}
+		}
+	//	~VideoShop(){}
+};
+
+
+int main(){
+	VideoShop shop;
+	for (;;){ 
+		cout << "\n\n\n" << endl;
+		cout << "If you want to exit search, press Space key!\nPress 'a' to add new films in your search!\nPress 'p'to print all films!\nPress any other key to search films by parameters!" << endl;
+		switch (_getch()){
+		case char(32) : return 0;
+		case 'a': system("cls"); shop.AddElements(); break;
+		case 'p':system("cls"); shop.PrintAll(); break;
+		default:system("cls"); shop.Search(); break;
+		}
+	}
+	return 0;
+}

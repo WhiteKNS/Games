@@ -1,0 +1,173 @@
+
+
+
+
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <Windows.h>
+using namespace std;
+#define LINE 9
+#define COLUMN 13
+int Field[LINE][COLUMN] = {
+	{ 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+	{ 1, 0, 4, 1, 1, 1, 1, 1, 0, 5, 0, 0, 0 },
+	{ 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0 },
+	{ 6, 1, 1, 1, 1, 1, 1, 0, 7, 1, 1, 1, 1 },
+	{ 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0 },
+	{ 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0 },
+	{ 0, 8, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0 }
+};
+
+
+
+class Crossword{
+	string CharField[LINE][COLUMN];
+	string word1, word2, word3, word4, word5, word6, word7;
+	int Number;
+	int counter;
+	string checkword;
+	int column2, line2;
+	struct Question{
+		int number;
+		string quest;
+	};
+	Question puzzle[7];
+	int Flag[7];
+
+	void Print(){                                    // Print console
+		line2 = 2; column2 = 35;
+		gotoXY(column2, line2);
+		for (int i = 0; i < LINE; i++, line2++, gotoXY(column2, line2)){
+			for (int j = 0; j < COLUMN; j++){
+				cout << CharField[i][j] << " ";
+			}
+		}
+
+	}
+
+
+	void InitialHorizontal(string word, int column1, int line1){
+		int i = 0;
+		int j = 0;
+		int k = word.size();
+		for (i = column1, j = 0; i <(column1 + k); i++, j++){
+			CharField[line1][i] = word.at(j);
+		}
+	}
+
+	void InitialVertical(string word, int column1, int line1){
+		int i = 0; int j = 0;
+		int k = word.size();
+		for (i = line1, j = 0; i < (line1 + k); i++, j++){
+			CharField[i][column1] = word.at(j);
+		}
+	}
+
+	string Input(){                                      // User input answer!
+		cout << "Input your answer!" << endl;
+		cin >> checkword;
+		for (unsigned int i = 0; i < checkword.size(); i++){
+			if ((checkword.at(i) >= char(65)) && (checkword.at(i) <= char(90))) checkword.at(i) += 32;    // check registers! If user input answer or some symbol in Upper register,the program automatically will change it to lower register;
+		}
+		return checkword;
+	}
+
+	void gotoXY(int column, int line)   // Set Cursor position;
+	{
+		COORD coord;
+		coord.X = column;
+		coord.Y = line;
+		SetConsoleCursorPosition(
+			GetStdHandle(STD_OUTPUT_HANDLE),
+			coord
+			);
+
+	}
+
+public:
+	Crossword(){                                                              //Constructor;
+		for (int i = 0; i < LINE; i++){
+			for (int j = 0; j < COLUMN; j++){
+				for (int l = 2; l < 9; l++){                          // Paint Field;
+					if (1 == Field[i][j]) CharField[i][j] = char(96);
+					if (!Field[i][j]) CharField[i][j] = char(32);
+					if (l == Field[i][j]) CharField[i][j] = char(l + 47);              
+				}
+			}
+		}
+		word1 = "fireman";               // right answers;
+		word2 = "lindgren";
+		word3 = "donkey";
+		word4 = "sydney";
+		word5 = "allegro";
+		word6 = "idiot";
+		word7 = "wednesday";
+		for (int i = 0; i < 7; i++){                    // number of questions and questions;
+			puzzle[i].number = (i + 1);
+		}
+		puzzle[0].quest = "The symbol of this profession is a hammer.";
+		puzzle[1].quest = "This minor planet, 3204, discovered in 1978 by Soviet astronomer Nikolai Stepanovich Chernykh,\n    was named after this amazing child writer. What is the name of planet and surname of author? ";
+		puzzle[2].quest = "Which symbol is the emblem of the Democratic Party in USA?";
+		puzzle[3].quest = "City in Australia.";
+		puzzle[4].quest = "Musical tempo.";
+		puzzle[5].quest = "Book of Dostoevsky.";
+		puzzle[6].quest = "Day of week.";
+		for (int i = 0; i < 7; i++){
+			Flag[i] = 0;
+		}
+		counter = 0;
+	}
+
+	~Crossword(){}    // destructor
+
+	void Game(){
+		Print();                  // Print field;
+		for (;;){
+			cout << "\n\n" << endl;
+			gotoXY(0, 13);
+			for (int i = 0; i < 7; i++){
+				if (!Flag[i]) { cout << puzzle[i].number << "   " << puzzle[i].quest << endl; }  // print questions;
+			}
+			if (7 == counter) { cout << "                                        You win!" << endl; return; }
+			cout << "\nInput NUMBER of question!" << endl;
+			cin >> Number;
+			if (cin.fail()){                                                              // check data type;
+				cerr << "Wrong data type! Try again! Input INT data!" << endl;
+				cin.clear();
+				cin.sync();
+				Sleep(1000);
+				system("cls");
+				Game();
+			}
+			switch (Number){
+			case 1:  Input(); if (checkword == word1) { Flag[0] = 1; counter++; InitialVertical(word1, 0, 0); system("cls"); Print(); break; }
+					 else { cout << "Wrong!!!" << endl; Sleep(500); system("cls"); Print(); break; }
+			case 2:Input(); if (checkword == word2) { Flag[1] = 1; counter++; InitialVertical(word2, 4, 1); system("cls"); Print();  break; }
+				   else { cout << "Wrong!!!" << endl; Sleep(500); system("cls"); Print(); break; }
+			case 3:Input(); if (checkword == word3) { Flag[2] = 1; counter++; InitialHorizontal(word3, 2, 3); system("cls"); Print(); break; }
+				   else { cout << "Wrong!!!" << endl; Sleep(500); system("cls"); Print(); break; }
+			case 4:Input(); if (checkword == word4) { Flag[3] = 1; counter++; InitialVertical(word4, 9, 3); system("cls"); Print(); break; }
+				   else { cout << "Wrong!!!" << endl; Sleep(500); system("cls"); Print(); break; }
+			case 5:Input(); if (checkword == word5) { Flag[4] = 1; counter++; InitialHorizontal(word5, 0, 5); system("cls"); Print(); break; }
+				   else { cout << "Wrong!!!" << endl; Sleep(500); system("cls"); Print(); break; }
+			case 6:Input(); if (checkword == word6) { Flag[5] = 1; counter++; InitialHorizontal(word6, 8, 5); system("cls"); Print(); break; }
+				   else { cout << "Wrong!!!" << endl; Sleep(500); system("cls"); Print(); break; }
+			case 7: Input(); if (checkword == word7) { Flag[6] = 1; counter++; InitialHorizontal(word7, 1, 8); system("cls"); Print(); break; }
+					else { cout << "Wrong!!!" << endl; Sleep(500); system("cls"); Print(); break; }
+			default: cout << "It's no questions with such number! Try again!" << endl; Sleep(500); system("cls"); Print(); break;
+			}
+		}
+	}
+
+};
+
+int main(){
+	system("color F0");
+	system("mode con cols=100 lines=50");
+	Crossword A;
+	A.Game();
+	return 0;
+}
