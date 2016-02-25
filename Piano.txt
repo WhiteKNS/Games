@@ -1,0 +1,911 @@
+#include <ctime>
+#include <iostream>
+#include <conio.h>
+#include <string>
+#include <windows.h>
+#include "Piano.h"
+#include "Background.h"
+#pragma comment( lib, "winmm" ) 
+using namespace std;
+typedef const int ci;
+typedef const char cc;
+
+
+struct Results{    //for final results;
+	int Number;
+	string Name;
+	int Result;
+};
+
+int main(){
+	srand((unsigned)time(0));
+	system("mode con cols=110 lines=50");
+
+	Piano ObjPiano;
+	Background ObjBackground;
+	PianoGameSpace ObjPianoGameSpace;
+	PianoGameSharp ObjPianoGameSharp;
+	PianoGameFlat  ObjPianoGameFlat;
+	PianoPresentation ObjPianoPresentation;
+	Results Results[50];
+
+	int i = 0;
+	
+	char k;
+	int reverse=0, result=0, counter=0;
+	bool BOOL=true;
+	ObjBackground.Back2();
+	ObjBackground.Back();
+		system("cls");
+		system("color B1");
+		Results[i].Result = 0;
+		cout << "Enter your name!" << endl;
+		cin >> Results[i].Name;
+		for (;;){                       
+			system("cls");
+			system("color B1");
+			cout << "\n" << endl;
+			Results[i].Number = (i + 1);
+			if (i > 0){
+				for (int j = 0; j < i; j++, cout << "\n"){
+					cout << Results[j].Number << "   " << Results[j].Name << "   " << Results[j].Result << "  points";
+				}
+			}
+			Results[i].Result = 0;
+			if (i>0){
+				cout << "Do you want to change your name? Press Y if you want, press any other key , if don't" << endl;
+				k = _getch();
+				if ((k == 'Y') || (k == 'y')) { cout << "Input new name!" << endl; cin >> Results[i].Name; }
+				else {
+					Results[i].Name = Results[i - 1].Name;
+				}
+			}
+			system("color B1");
+			cout.setf(ios::left);
+			cout << Results[i].Name << ", \nPress Y, if you want to start to learn piano keyboard? \n press G if you want to start the game of finding piano keys,\n press S if you want to play at the piano,\n press N if you want to exit the game" << endl;
+			k = _getch();
+				switch (k){
+				case 'y':
+				case 'Y':
+					i--;
+					cout << "\t\t\t\t\tLet's start! Learn white keys!" << endl;
+					Sleep(1000);
+					system("cls");
+					ObjPianoPresentation.SpaceData();
+					Sleep(2000);
+					system("cls");
+					cout << "You can try to find white keys at the piano!" << endl;
+					Sleep(3000);
+					system("cls");
+					for (;;){
+						reverse = 0;
+						system("cls");
+						while (reverse < 10){
+							ObjPianoGameSpace.SetData(BOOL);
+							Sleep(500);
+							system("cls");
+							reverse++;
+						}
+						cout << "If you want to repeat WHITE game, press Y, if not, press any key to go to SHARP game!" << endl;
+						k = _getch();
+						if ((k == 'Y') || (k == 'y')) continue;
+						else break;
+					}
+					system("cls");
+					cout << "\t\t\t\t\tLearn sharp keys!" << endl;
+					ObjPianoPresentation.SharpData();
+					Sleep(3000);
+					system("cls");
+					cout << "You can try to find sharp keys at the piano!" << endl;
+					Sleep(3000);
+					system("cls");
+					for (;;){
+						reverse = 0;
+						system("cls");
+						while (reverse < 10){
+							ObjPianoGameSharp.SetData(BOOL);
+							Sleep(500);
+							system("cls");
+							reverse++;
+						}
+						cout << "If you want to repeat SHARP game, press Y, if not, press any key to go to FLAT game!" << endl;
+						k = _getch();
+						if ((k == 'Y') || (k == 'y')) continue;
+						else break;
+					}
+					system("cls");
+					cout << "\t\t\t\t\tLearn flat keys!" << endl;
+					ObjPianoPresentation.FlatData();
+					Sleep(3000);
+					system("cls");
+					cout << "You can try to find flat keys at the piano!" << endl;
+					Sleep(3000);
+					system("cls");
+					for (;;){
+						reverse = 0;
+						system("cls");
+						while (reverse < 10){
+							ObjPianoGameFlat.SetData(BOOL);
+							Sleep(500);
+							system("cls");
+							reverse++;
+						}
+						cout << "If you want to repeat FLAT game, press Y, if not, press any key to go to MENU!" << endl;
+						k = _getch();
+						if ((k == 'Y') || (k == 'y')) continue;
+						else break;
+					}			break; continue;
+				case 'g':
+				case 'G':
+						system("cls");
+						Results[i].Number = (i + 1);
+						for (int j = 0; j < i; j++, cout << "\n"){
+							cout << Results[j].Number << "   " << Results[j].Name << "   " << Results[j].Result << "  points";
+						}
+							result = 0; counter = 0;
+							cout << Results[i].Name << ", you have 15 attempts to recognize keys! 5 attempts - to recognize white keys;\n then 5 to recognize sharp;\n and 5 to recofnize flat notes\n If you'll have 4 mistakes, you'll lose the game!\n Let's start!" << endl;
+							reverse = 0;
+							Sleep(5000);
+							system("cls");
+							while (reverse < 5){
+								cout << "\t\t\t\t\tSpace note!" << endl;
+								ObjPianoGameSpace.SetData(BOOL);
+								if (BOOL == true)   result++;
+								if (BOOL == false) {
+									counter++; if (4 == counter){
+										Results[i].Result = result; cout << "Sorry! You lose! Try again!" << "You result is   " << result << endl; break;
+									}
+								}
+								Sleep(500);
+								system("cls");
+								reverse++;
+								Results[i].Result = result;
+							}
+							reverse = 0;
+							while (reverse < 5){
+								if (counter < 4) {
+									cout << "\t\t\t\t\tSharp note!" << endl;
+									ObjPianoGameSharp.SetData(BOOL);
+									if (BOOL == true)   result++;
+									if (BOOL == false) {
+										counter++; if (4 == counter){
+											Results[i].Result = result; cout << "Sorry! You lose! Try again!" << "You result is   " << result << endl;
+										break;
+										}
+									}
+									Sleep(500);
+									system("cls");
+									reverse++;
+									Results[i].Result = result;
+								}
+								else  break;
+								Results[i].Result = result;
+							}
+							reverse = 0;
+							while (reverse < 5){
+								if (counter < 4){
+									cout << "\t\t\t\t\tFlat note!" << endl;
+									ObjPianoGameFlat.SetData(BOOL);
+									if (BOOL == true)   result++;
+									if (BOOL == false)  {
+										counter++; if (4 == counter){
+											Results[i].Result = result; cout << "Sorry! You lose! Try again!" << "You result is   " << result << endl;  break;
+										}
+									}
+									Sleep(500);
+									system("cls");
+									reverse++;
+									Results[i].Result = result;
+								}
+								else  { Results[i].Result = result; break; }
+								
+							}break; continue;
+				case 's':
+				case 'S':i--; system("cls"); ObjPiano.PlayPiano(); break; continue;
+				case 'n':
+				case 'N':i--; cout << "OK! See you later!" << endl; system("cls"); ObjBackground.Back3();   return 0; break;
+				default: cout << "Wrong data! Try again!" << endl; Sleep(1000); break; continue;
+				}
+			i++; continue;
+		}
+	return 0;
+}
+
+//Background.cpp
+
+
+
+#include <ctime>
+#include <iostream>
+#include <conio.h>
+#include <string>
+#include <windows.h>
+#pragma comment( lib, "winmm" ) 
+using namespace std;
+typedef const int ci;
+typedef const char cc;
+
+#include "Background.h"
+
+
+
+
+Background::Background(){
+		system("color B1");
+		column1 = 1;
+		line1 = 1;
+		Hello = "Hello!";
+	}
+
+	void Background:: Back(){                    //Like Windows))))
+		system("color B1");
+		column1 = 1;
+		for (;;){
+			while (!_kbhit()){
+				if (25 == line1)  {
+					while (!_kbhit()){
+						if (0 == line1)  {
+							while (!_kbhit()){
+								line1++; gotoXY(column1, line1); cout << Hello;
+								Sleep(300);
+								Delete();
+								if (25 == line1)  {
+									while (!_kbhit()){
+										if (0 == line1) break;
+										line1--; column1--; gotoXY(column1, line1); cout << Hello;
+										Sleep(300);
+										Delete();
+									}
+								}
+							}
+						}
+						column1++; line1--; gotoXY(column1, line1); cout << Hello;
+						Sleep(300);
+						Delete();
+
+					} continue;
+				}
+				gotoXY(column1, line1);
+				line1++;
+				column1++;
+				cout << Hello;
+				Sleep(300);
+				Delete();
+				continue;
+			}
+			Delete();
+			gotoXY(15, 15);
+			printf("Let's start!\n");
+			Sleep(2000);
+			Delete(); break;
+		}
+	}
+	void Background:: Delete(){
+		system("cls");
+	}
+	void Background::Back2(){    //Paint characters;
+		line1 = 4;
+		while (!_kbhit()){
+			line1++;
+			Sleep(5);
+			gotoXY(column1, line1);
+			if ((line1 > 4) && (line1 < 25) && (column1>0) && (column1<5)){ cout << char(178); } //H
+			if ((line1 > 12) && (line1 < 17) && (column1>4) && (column1<9)){ cout << char(178); }
+			if ((line1 > 4) && (line1 < 25) && (column1>8) && (column1<13)){ cout << char(178); }
+			if ((line1 > 4) && (line1 < 25) && (column1>15) && (column1<20)){ cout << char(178); } //E
+			if ((line1 > 4) && (line1<9) && (column1>19) && (column1<24)){ cout << char(178); }
+			if ((line1>12) && (line1 < 17) && (column1>19) && (column1<24)) { cout << char(178); }
+			if ((line1>20) && (line1<25) && (column1>19) && (column1<24)){ cout << char(178); }
+			if ((line1 > 4) && (line1 < 25) && (column1>26) && (column1<31)){ cout << char(178); } //L
+			if ((line1>20) && (line1<25) && (column1>30) && (column1<35)){ cout << char(178); }
+			if ((line1 > 4) && (line1 < 25) && (column1>37) && (column1<42)){ cout << char(178); } //L
+			if ((line1>20) && (line1<25) && (column1>41) && (column1<46)){ cout << char(178); }
+			if ((line1 > 4) && (line1 < 25) && (column1>48) && (column1<53)){ cout << char(178); }   //O
+			if ((line1 > 4) && (line1<9) && (column1>52) && (column1<57)){ cout << char(178); }
+			if ((line1>20) && (line1<25) && (column1>52) && (column1<57)){ cout << char(178); }
+			if ((line1 > 4) && (line1 < 25) && (column1>56) && (column1<61)){ cout << char(178); }
+			if ((line1 > 4) && (line1 < 19) && (column1>63) && (column1<68)){ cout << char(178); } //!
+			if ((line1 > 20) && (line1 < 25) && (column1>63) && (column1<68)){ cout << char(178); }
+			if (column1>67) { Sleep(5000);  break; }
+			if (25 == line1) { line1 = 1; column1++; }
+		}
+
+	}
+	void Background::Back3(){                 //Paint end characters;
+		line1 = 4;
+		column1 = 0;
+		system("color B1");
+		while (!_kbhit()){
+			line1++;
+			Sleep(5);
+			gotoXY(column1, line1);
+			if ((line1 > 4) && (line1<9) && (column1>0) && (column1<5)){ cout << char(178); }  //T
+			if ((line1 > 4) && (line1 < 25) && (column1>4) && (column1<9)){ cout << char(178); }
+			if ((line1 > 4) && (line1<9) && (column1>8) && (column1<13)){ cout << char(178); }
+			if ((line1 > 4) && (line1 < 25) && (column1>15) && (column1<20)){ cout << char(178); } //H
+			if ((line1 > 12) && (line1 < 17) && (column1>19) && (column1<24)){ cout << char(178); }
+			if ((line1 > 4) && (line1 < 25) && (column1>23) && (column1<28)){ cout << char(178); }
+			if ((line1 > 4) && (line1 < 25) && (column1>30) && (column1<35)){ cout << char(178); } //E
+			if ((line1 > 4) && (line1<9) && (column1>34) && (column1<39)){ cout << char(178); }
+			if ((line1>12) && (line1 < 17) && (column1>34) && (column1<39)) { cout << char(178); }
+			if ((line1>20) && (line1<25) && (column1>34) && (column1<39)){ cout << char(178); }
+			if ((line1 > 4) && (line1 < 25) && (column1>44) && (column1<49)){ cout << char(178); } //E
+			if ((line1 > 4) && (line1<9) && (column1>48) && (column1<53)){ cout << char(178); }
+			if ((line1>12) && (line1 < 17) && (column1>48) && (column1<53)) { cout << char(178); }
+			if ((line1>20) && (line1<25) && (column1>48) && (column1<53)){ cout << char(178); }
+			if ((line1 > 4) && (line1 < 25) && (column1>55) && (column1<60)){ cout << char(178); }//N
+			if ((line1>12) && (line1<17) && (column1>59) && (column1<64)) { cout << char(178) << char(178); line1--; column1++; line1++; }
+			if ((line1 > 4) && (line1 < 25) && (column1>63) && (column1<68)){ cout << char(178); }
+			if ((line1 > 12) && (line1 < 25) && (column1>70) && (column1<75)){ cout << char(178); } //d
+			if ((line1>12) && (line1 < 17) && (column1>74) && (column1<79)) { cout << char(178); }
+			if ((line1>20) && (line1<25) && (column1>74) && (column1<79)){ cout << char(178); }
+			if ((line1 > 4) && (line1 < 25) && (column1>78) && (column1<83)){ cout << char(178); }
+			if (column1>82) { Sleep(5000);  break; }
+			if (25 == line1) { line1 = 1; column1++; }
+		}
+	}
+	void Background::gotoXY(int column, int line)  // Set Cursor position; Why it's can't be friend method of other class?
+	{
+		COORD coord;
+		coord.X = column;
+		coord.Y = line;
+		SetConsoleCursorPosition(
+			GetStdHandle(STD_OUTPUT_HANDLE),
+			coord
+			);
+
+	}
+
+
+
+
+//Backgroung.h
+
+
+#ifndef BACKGROUND_H
+#define BACKGROUND_H
+
+#include <ctime>
+#include <iostream>
+#include <conio.h>
+#include <string>
+#include <windows.h>
+#pragma comment( lib, "winmm" ) 
+using namespace std;
+typedef const int ci;
+typedef const char cc;
+
+class Background{
+private:
+	int column1;
+	int line1;
+	string Hello;
+public:
+	Background();
+	void Back();               //Like Windows))))	
+	void Delete();
+	void Back2();    //Paint characters;	
+	void Back3();               //Paint end characters;
+	void gotoXY(int column, int line);  // Set Cursor position; Why it's can't be friend method of other class?
+};
+
+
+#endif //BACKGROUND_H
+
+
+
+
+//Piano.cpp
+
+#include <ctime>
+#include <iostream>
+#include <conio.h>
+#include <string>
+#include <windows.h>
+#pragma comment( lib, "winmm" ) 
+using namespace std;
+typedef const int ci;
+typedef const char cc;
+
+#include "Piano.h"
+
+enum Notes{ C, D, E, F, G, A, B };
+
+
+	void Piano:: PaintPiano(){    //Paint Piano keyboard;
+		system("color F0");
+		for (int i = 0; i < 15; i++){
+			Paint();
+		}
+		for (int j = 0; j < 6; j++, cout << endl){
+			for (int i = 0; i <= 15; i++){
+				Paint2();
+			}
+		}
+		for (int i = 0; i < 91; i++){
+			cout << char(219);
+		}
+		cout << endl;
+		gotoXY(30, 30);
+	}
+	inline void Piano:: Paint(){
+		cout << char(219) << "    " << char(219) << char(219) << char(219) << "   " << char(219) << char(219) << char(219) << "    " << char(219) << "    " << char(219) << char(219) << char(219) << "   " << char(219) << char(219) << char(219) << "   " << char(219) << char(219) << char(219) << "    " << char(219) << "    " << char(219) << char(219) << char(219) << "   " << char(219) << char(219) << char(219) << "    " << char(219) << "    " << char(219) << char(219) << char(219) << "   " << char(219) << char(219) << char(219) << "   " << char(219) << char(219) << char(219) << "    " << char(219) << "     " << char(219) << endl;
+	}
+
+	inline void Piano::Paint2(){
+		cout << char(219) << "     ";
+	}
+
+	void Piano::Delete(){
+		cout << char(219);
+		Sleep(300);
+		cout << "\b" << char(32);
+	}
+	void Piano:: Delete1(){
+		cout << char(255);
+		Sleep(300);
+		cout << "\b" << char(219);
+	}
+
+	void Piano:: gotoXY(int column, int line)  // Set Cursor position; ????????? Question!!!!!
+	{
+		COORD coord;
+		coord.X = column;
+		coord.Y = line;
+		SetConsoleCursorPosition(
+			GetStdHandle(STD_OUTPUT_HANDLE),
+			coord
+			);
+
+	}
+	Piano::Piano(){}
+	void Piano::PlayPiano(){       //Piano simulator;
+		PaintPiano();
+		cout << "Play at the piano!\n Use computer keys! \n Z,S,X,D,C,V,G,B,H,N,J,M,',',L, '.',';','/',Q,W,E,R,T,Y,U,I\nPress 0 if you want to go to start menu" << endl;
+		for (;;){
+			switch (_getch()){
+			case'Z':
+			case'z':gotoXY(3, 15); Delete(); Beep(262, 600); break;
+			case'X':
+			case 'x': gotoXY(9, 15); Delete(); Beep(294, 600); break;
+			case 'C':
+			case'c': gotoXY(15, 15); Delete(); Beep(330, 600); break;
+			case'V':
+			case'v': gotoXY(21, 15); Delete(); Beep(350, 600); break;
+			case'B':
+			case 'b': gotoXY(27, 15); Delete(); Beep(392, 600); break;
+			case 'N':
+			case'n': gotoXY(33, 15); Delete(); Beep(440, 600); break;
+			case 'M':
+			case'm': gotoXY(39, 15); Delete(); Beep(494, 600); break;
+			case'S':
+			case's':gotoXY(6, 9); Delete1(); Beep(277, 600); break;
+			case'D':
+			case 'd': gotoXY(12, 9); Delete1(); Beep(311, 600); break;
+			case'G':
+			case'g': gotoXY(24, 9); Delete1(); Beep(370, 600); break;
+			case'H':
+			case 'h': gotoXY(30, 9); Delete1(); Beep(415, 600); break;
+			case 'J':
+			case'j': gotoXY(36, 9); Delete1(); Beep(466, 600); break;
+			case',':gotoXY(45, 15); Delete(); Beep(523, 600); break;
+			case '.': gotoXY(51, 15); Delete(); Beep(587, 600); break;
+			case'/': gotoXY(57, 15); Delete(); Beep(659, 600); break;
+			case'L':
+			case'l': gotoXY(48, 9); Delete1(); Beep(554, 600); break;
+			case ';': gotoXY(54, 9); Delete1(); Beep(622, 600); break;
+			case 'Q':
+			case'q': gotoXY(63, 15); Delete(); Beep(698, 600); break;
+			case'W':
+			case'w':gotoXY(66, 9); Delete1(); Beep(740, 600); break;
+			case'E':
+			case 'e': gotoXY(69, 15); Delete(); Beep(784, 600); break;
+			case'R':
+			case'r': gotoXY(72, 9); Delete1(); Beep(830, 600); break;
+			case'T':
+			case 't': gotoXY(75, 15); Delete(); Beep(880, 600); break;
+			case 'Y':
+			case'y': gotoXY(78, 9); Delete1(); Beep(932, 600); break;
+			case'U':
+			case 'u': gotoXY(81, 15); Delete(); Beep(988, 600); break;
+			case 'I':
+			case'i': gotoXY(87, 15); Delete(); Beep(1046, 600); break;
+			case '0': return;
+			default: PlaySound(TEXT("SystemStart"), NULL, SND_ALIAS); continue;
+			}
+			gotoXY(30, 30);  continue;
+		}
+	}
+
+
+	
+		PianoGameSpace::PianoGameSpace(){
+			x = -3;
+			for (int i = 0; i < 15; i++){   //constructor for Space Notes;
+				SpaceNote[i] = (x + 6);
+				x += 6;
+			}
+		}
+		void PianoGameSpace::SetData(bool &Bool1){   //class Sharp will inherit this method, but...
+			PaintPiano();
+			j = rand() % 15;     // computer input note;
+			column1 = SpaceNote[j];
+			gotoXY(SpaceNote[j], 18);
+			switch (j){
+			case 0:  Delete(); Beep(262, 500); break;
+			case 1: Delete(); Beep(294, 500); break;
+			case 2:Delete(); Beep(330, 500); break;
+			case 3:Delete(); Beep(350, 500); break;
+			case 4:Delete(); Beep(392, 500); break;
+			case 5: Delete(); Beep(440, 500); break;
+			case 6: Delete(); Beep(494, 500); break;
+			case 7:Delete(); Beep(523, 500); break;
+			case 8: Delete(); Beep(587, 500); break;
+			case 9: Delete(); Beep(659, 500); break;
+			case 10:Delete(); Beep(698, 500); break;
+			case 11:Delete(); Beep(784, 500); break;
+			case 12:Delete(); Beep(880, 500); break;
+			case 13:Delete(); Beep(988, 500); break;
+			case 14: Delete(); Beep(1046, 500); break;
+			}
+			gotoXY(30, 30);
+			Check(Bool1);
+		}
+		bool PianoGameSpace::Check(bool &Bool){     //!!!!!!!!!!!!!!!!!!Add bool!!!
+			cout << "Use computer keys to input notes!\n 1. C for C or C# note\n 2. D for D or D# note\n 3. E for E or E# note\n 4. F for F or F# note\n 5. G for G or G# note\n 6. A for A or A# note\n 7. B for B or B# note\n" << endl;
+			gotoXY(30, 40);
+			cout << "Input note!" << endl;
+			gotoXY(30, 41);
+			for (;;){
+				cin >> CharNote;                     //Player Input Note(char symbol);
+				List(CharNote, Note);
+				if (100 == Note) { cout << "It's no note with such name! Try again!" << endl; continue; }
+				else break;
+			}
+			if ((7 == j) || (14 == j)) j = 0;
+			if (8 == j) j = 1;
+			if (9 == j)  j = 2;
+			if (10 == j) j = 3;
+			if (11 == j)  j = 4;
+			if (12 == j) j = 5;
+			if (13 == j)  j = 6;
+			if (Note == j) { gotoXY(30, 42); cout << "Right!" << endl; Bool = true; return Bool; } //Check results;
+			else  { gotoXY(30, 42); cout << "No!" << endl; Bool = false;  return Bool; }
+		}
+		void PianoGameSpace::List(cc note, int &IntNote){    //exchange char symbol to int symbol;
+			switch (note){
+			case 'C':
+			case'c': IntNote = C; break;
+			case 'D':
+			case 'd':IntNote = D; break;
+			case 'E':
+			case 'e':IntNote = E; break;
+			case 'F':
+			case 'f':IntNote = F; break;
+			case 'G':
+			case 'g':IntNote = G; break;
+			case 'A':
+			case 'a':IntNote = A; break;
+			case 'B':
+			case 'b':IntNote = B; break;
+			default: IntNote = 100;  break;
+			}
+		}
+
+
+			PianoGameSharp::PianoGameSharp(){
+				for (int i = 0; i < 14; i++){
+					if ((0 == i) || (1 == i) || (4 == i) || (5 == i) || (8 == i) || (12 == i) || (11 == i)) { y += 6; SharpNote[i] = y; }   //constructor for Sharp Notes;
+					else{
+						if ((2 == i) || (6 == i) || (9 == i) || (13 == i))  { y += 9; SharpNote[i] = y; }
+						else  { y += 3; SharpNote[i] = y; }
+					}
+				}
+			}
+			void PianoGameSharp::SetData(bool &Bool1){    //modification of virtual function from class PianoGameSpace;
+				PaintPiano();
+				j = rand() % 14;
+				if ((2 == j) || (6 == j) || (9 == j) || (13 == j)) {
+					column2 = SharpNote[j];
+					gotoXY(SharpNote[j], 15);
+				}
+				else{
+					column2 = SharpNote[j];
+					gotoXY(SharpNote[j], 9);
+				}
+				switch (j){
+				case 0:Delete1(); Beep(277, 500); break;
+				case 1:Delete1(); Beep(311, 500); break;
+				case 2: Delete(); Beep(350, 500); break;
+				case 3:Delete1(); Beep(370, 500); break;
+				case 4:Delete1(); Beep(415, 500); break;
+				case 5:Delete1(); Beep(466, 500); break;
+				case 6: Delete(); Beep(523, 500); break;
+				case 7:Delete1(); Beep(554, 500); break;
+				case 8:Delete1(); Beep(622, 500); break;
+				case 9:Delete(); Beep(698, 500); break;
+				case 10:Delete1(); Beep(740, 500); break;
+				case 11:Delete1(); Beep(830, 500); break;
+				case 12:Delete1(); Beep(932, 500); break;
+				case 13: Delete(); Beep(1046, 500); break;
+				}
+				if ((2 == j) || (6 == j) || (9 == j) || (13 == j)) {
+					gotoXY(column2, 15);
+					cout << char(32);
+				}
+				else{
+					gotoXY(column2, 9);
+					cout << char(219);
+				}
+				gotoXY(30, 30);
+				Check(Bool1);
+			}
+
+	
+		PianoGameFlat::	PianoGameFlat(){
+				for (int i = 1; i < 15; i++){
+					if ((1 == i) || (2 == i) || (5 == i) || (6 == i) || (9 == i) || (12 == i) || (13 == i)) { y1 += 6; FlatNote[i] = y1; }   //constructor for Flat Notes;
+					else{
+						if ((4 == i) || (8 == i) || (11 == i))  { y1 += 9; FlatNote[i] = y1; }
+						else  { y1 += 3; FlatNote[i] = y1; }
+					}
+				}
+			}
+		void PianoGameFlat::SetData(bool &Bool1){    //modification of virtual function from class PianoGameSpace;
+				PaintPiano();
+				Sleep(10);
+				j = rand() % 14 + 1;
+				if ((3 == j) || (7 == j) || (10 == j) || (14 == j)) {
+					column3 = FlatNote[j];
+					gotoXY(FlatNote[j], 15);
+				}
+				else{
+					column3 = FlatNote[j];
+					gotoXY(FlatNote[j], 9);
+				}
+				switch (j){
+				case 1:Delete1(); Beep(277, 500); break;
+				case 2:Delete1(); Beep(311, 500); break;
+				case 3: Delete(); Beep(350, 500); break;
+				case 4:Delete1(); Beep(370, 500); break;
+				case 5:Delete1(); Beep(415, 500); break;
+				case 6:Delete1(); Beep(466, 500); break;
+				case 7: Delete(); Beep(523, 500); break;
+				case 8:Delete1(); Beep(554, 500); break;
+				case 9:Delete1(); Beep(622, 500); break;
+				case 10:Delete(); Beep(698, 500); break;
+				case 11:Delete1(); Beep(740, 500); break;
+				case 12:Delete1(); Beep(830, 500); break;
+				case 13:Delete1(); Beep(932, 500); break;
+				case 14: Delete(); Beep(988, 500); break;
+				}
+				if ((3 == j) || (7 == j) || (10 == j) || (14 == j)) {
+					gotoXY(column3, 15);
+					cout << char(32);
+				}
+				else{
+					gotoXY(column3, 9);
+					cout << char(219);
+				}
+				gotoXY(30, 30);
+				Check(Bool1);
+			}
+		
+			PianoPresentation::PianoPresentation(){}
+			void  PianoPresentation::SpaceData(){            //Presentation of white keys;
+				for (;;){
+					PaintPiano();
+					gotoXY(20, 25);
+					cout.setf(ios::left);
+					cout << "  Remember, the musical alphabet begins at note C, not A.\n  So let's find C. Locate any group of two black keys.\n  The white key that is to the left of the group of two black keys is C.\n"
+						"  Let's find D. D is located in the middle of the group of two black keys.\n  Let's find E. E is located to the right of the group of two black keys.\n  Let's find F. F is located to the left of the group of three black keys.\n"
+						"  Let's find G. G is located between the first and second black keys of the group of three black keys.\n  After G, remember that there is no H. Once you get to G, the next white key is A.\n  Let's find A. A is located between the second and third black keys of the group of three black keys.\n"
+						"  Let's find B. B is located to the right of the group of three black keys." << endl;
+					k = 0;
+					l = -3;
+					while (k < 15){
+						l += 6;
+						switch (k){
+						case 0: gotoXY(l, 18); cout << "C"; Sleep(500); cout << "\b"; cout << char(32); Beep(262, 500); break;
+						case 1:gotoXY(l, 18);  cout << "D"; Sleep(500); cout << "\b"; cout << char(32); Beep(294, 500); break;
+						case 2: gotoXY(l, 18); cout << "E"; Sleep(500); cout << "\b"; cout << char(32); Beep(330, 500); break;
+						case 3: gotoXY(l, 18); cout << "F"; Sleep(500); cout << "\b"; cout << char(32); Beep(350, 500); break;
+						case 4:gotoXY(l, 18);  cout << "G"; Sleep(500); cout << "\b"; cout << char(32); Beep(392, 500); break;
+						case 5: gotoXY(l, 18); cout << "A"; Sleep(500); cout << "\b"; cout << char(32); Beep(440, 500); break;
+						case 6: gotoXY(l, 18); cout << "B"; Sleep(500); cout << "\b"; cout << char(32); Beep(494, 500); break;
+						case 7:  gotoXY(l, 18); cout << "C"; Sleep(500); cout << "\b"; cout << char(32); Beep(523, 500); break;
+						case 8: gotoXY(l, 18); cout << "D"; Sleep(500); cout << "\b"; cout << char(32); Beep(587, 500); break;
+						case 9: gotoXY(l, 18);  cout << "E"; Sleep(500); cout << "\b"; cout << char(32); Beep(659, 500); break;
+						case 10: gotoXY(l, 18); cout << "F"; Sleep(500); cout << "\b"; cout << char(32); Beep(698, 500); break;
+						case 11: gotoXY(l, 18);  cout << "G"; Sleep(500); cout << "\b"; cout << char(32); Beep(784, 500); break;
+						case 12: gotoXY(l, 18);  cout << "A"; Sleep(500); cout << "\b"; cout << char(32); Beep(880, 500); break;
+						case 13: gotoXY(l, 18); cout << "B"; Sleep(500); cout << "\b"; cout << char(32); Beep(988, 500); break;
+						case 14: gotoXY(l, 18); cout << "C"; Sleep(500); cout << "\b"; cout << char(32); Beep(1046, 500); break;
+						}
+						k++;
+					}
+					gotoXY(30, 37);
+					cout << "Press any key, if you want to repeat!\n\t\t\t      Press Esc to exit presentation!" << endl;
+					key = _getch();
+					if (27 == key) break;
+					else { system("cls"); continue; }
+				}
+			}
+			void PianoPresentation::SharpData(){  //Presentations of Sharp keys;
+				for (;;){
+					PaintPiano();
+					gotoXY(20, 25);
+					cout.setf(ios::left);
+					cout << "Look at the two octave keyboard above.You see that in each octave of c\t\n there are five "
+						"black keys.That tells you that in addition to your seven\t\n natural notes there are five other "
+						"notes.That gives a total of 12 different notes.\t\n That's all there are. All the music there is "
+						"and all the music that will ever be has\t\n to use these 12 notes.Of course few songs if any "
+						"would use all 12. Many songs make\t\n do with only five.The black key notes take their name "
+						"from the notes they are\t\n next to.They are called the sharp of the white key note below "
+						"and the flat of\t\n the white key note above.So each black key note has two names."
+						"Sharps\t\n and flats have musical notation symbols. \n\n   This is the symbol for a sharp    #\n   This is the symbol for a flat    b" << endl;
+					Sleep(10);
+					k = 0;
+					while (k < 15){
+						switch (k){
+						case 0: gotoXY(6, 9); cout << "C#"; Sleep(500); DeleteSharp(); Beep(277, 500); break;
+						case 1: gotoXY(12, 9); cout << "D#"; Sleep(500); DeleteSharp(); Beep(311, 500); break;
+						case 2:	gotoXY(21, 18); cout << "E#"; Sleep(500); DeleteSpace(); Beep(350, 500);  break;
+						case 3:	gotoXY(24, 9); cout << "F#"; Sleep(500);  DeleteSharp(); Beep(370, 500); break;
+						case 4: gotoXY(30, 9); cout << "G#"; Sleep(500);  DeleteSharp(); Beep(415, 500); break;
+						case 5: gotoXY(36, 9); cout << "A#"; Sleep(500);  DeleteSharp(); Beep(466, 500); break;
+						case 6:gotoXY(45, 18); cout << "B#"; Sleep(500); DeleteSpace(); Beep(523, 500); break;
+						case 7: gotoXY(48, 9); cout << "C#"; Sleep(500);  DeleteSharp(); Beep(554, 500); break;
+						case 8: gotoXY(54, 9); cout << "D#"; Sleep(500);  DeleteSharp(); Beep(622, 500); break;
+						case 9: gotoXY(63, 18); cout << "E#"; Sleep(500); DeleteSpace(); Beep(698, 500); break;
+						case 10:gotoXY(66, 9); cout << "F#"; Sleep(500);  DeleteSharp(); Beep(740, 500); break;
+						case 11: gotoXY(72, 9); cout << "G#"; Sleep(500);  DeleteSharp(); Beep(830, 500); break;
+						case 12: gotoXY(78, 9); cout << "A#"; Sleep(500);  DeleteSharp(); Beep(932, 500); break;
+						case 13: gotoXY(87, 18); cout << "B#"; Sleep(500); DeleteSpace(); Beep(1046, 500); break;
+						}
+						k++;
+					}
+					gotoXY(30, 37);
+					cout << "Press any key, if you want to repeat!\n\t\t\t      Press Esc to exit presentation!" << endl;
+					key = _getch();
+					if (27 == key) break;
+					else { system("cls"); continue; }
+				}
+			}
+
+			void PianoPresentation::FlatData(){            //Presentation of Flat keys;
+				for (;;){
+					PaintPiano();
+					gotoXY(20, 25);
+					cout.setf(ios::left);
+					cout << "Look at the two octave keyboard above.You see that in each octave of c\t\n there are five "
+						"black keys.That tells you that in addition to your seven\t\n natural notes there are five other "
+						"notes.That gives a total of 12 different notes.\t\n That's all there are. All the music there is "
+						"and all the music that will ever be has\t\n to use these 12 notes.Of course few songs if any "
+						"would use all 12. Many songs make\t\n do with only five.The black key notes take their name "
+						"from the notes they are\t\n next to.They are called the sharp of the white key note below "
+						"and the flat of\t\n the white key note above.So each black key note has two names."
+						"Sharps\t\n and flats have musical notation symbols. \n\n   This is the symbol for a sharp    #\n   This is the symbol for a flat    b" << endl;
+					Sleep(10);
+					k = 0;
+					while (k < 15){
+						switch (k){
+						case 0: gotoXY(6, 9); cout << "Db"; Sleep(500); DeleteSharp(); Beep(277, 500); break;
+						case 1: gotoXY(12, 9); cout << "Eb"; Sleep(500); DeleteSharp(); Beep(311, 500); break;
+						case 2:	gotoXY(15, 15); cout << "Fb"; Sleep(500); DeleteSpace(); Beep(330, 500);  break;
+						case 3:	gotoXY(24, 9); cout << "Gb"; Sleep(500);  DeleteSharp(); Beep(370, 500); break;
+						case 4: gotoXY(30, 9); cout << "Ab"; Sleep(500);  DeleteSharp(); Beep(415, 500); break;
+						case 5: gotoXY(36, 9); cout << "Bb"; Sleep(500);  DeleteSharp(); Beep(466, 500); break;
+						case 6: gotoXY(39, 15); cout << "Cb"; Sleep(500); DeleteSpace(); Beep(494, 500); break;
+						case 7: gotoXY(48, 9); cout << "Db"; Sleep(500);  DeleteSharp(); Beep(554, 500); break;
+						case 8: gotoXY(54, 9); cout << "Eb"; Sleep(500);  DeleteSharp(); Beep(622, 500); break;
+						case 9: gotoXY(57, 15); cout << "Fb"; Sleep(500); DeleteSpace(); Beep(659, 500); break;
+						case 10:gotoXY(66, 9); cout << "Gb"; Sleep(500);  DeleteSharp(); Beep(740, 500); break;
+						case 11:gotoXY(72, 9); cout << "Ab"; Sleep(500);  DeleteSharp(); Beep(830, 500); break;
+						case 12:gotoXY(78, 9); cout << "Bb"; Sleep(500);  DeleteSharp(); Beep(932, 500); break;
+						case 13: gotoXY(81, 15); cout << "Cb"; Sleep(500); DeleteSpace(); Beep(988, 500); break;
+						}
+						k++;
+					}
+					gotoXY(30, 37);
+					cout << "Press any key, if you want to repeat!\n\t\t\t      Press Esc to exit presentation!" << endl;
+					key = _getch();
+					if (27 == key) break;
+					else { system("cls"); continue; }
+				}
+			}
+			void PianoPresentation::DeleteSpace(){
+				cout << "\b\b"; cout << char(32); cout << char(32);  //delete unnecessary symbols;
+			}
+			void PianoPresentation:: DeleteSharp(){
+				cout << "\b\b"; cout << char(219) << char(219);  //delete unnecessary symbols;
+			}
+
+
+
+
+
+//Piano.h
+
+
+
+
+#ifndef PIANO_H
+#define PIANO_H
+#include <ctime>
+#include <iostream>
+#include <conio.h>
+#include <string>
+#include <windows.h>
+#pragma comment( lib, "winmm" ) 
+using namespace std;
+typedef const int ci;
+typedef const char cc;
+
+
+class Piano{
+protected:
+	void PaintPiano();   //Paint Piano keyboard;
+	inline void Paint();
+	inline void Paint2();
+	void Delete();
+	void Delete1();
+	void gotoXY(int column, int line);  // Set Cursor position; ????????? Question!!!!!
+public:
+	Piano();
+	void PlayPiano();      //Piano simulator;
+
+};
+
+
+class PianoGameSpace : virtual public Piano{
+
+protected:
+	int SpaceNote[15];
+	int x, j;
+	int column1;
+	int Note;
+	char CharNote;
+public:
+	PianoGameSpace();   //constructor for Space Notes;
+	virtual void SetData(bool &Bool1);   //class Sharp will inherit this method, but...
+	bool Check(bool &Bool);     //!!!!!!!!!!!!!!!!!!Add bool!!!
+	void List(cc note, int &IntNote);    //exchange char symbol to int symbol;
+};
+
+class PianoGameSharp : virtual public PianoGameSpace{
+private:
+	int SharpNote[14];
+	int column2, y = 0;
+public:
+	PianoGameSharp();  //constructor for Sharp Notes;
+	void SetData(bool &Bool1);    //modification of virtual function from class PianoGameSpace;
+};
+
+class PianoGameFlat : virtual public PianoGameSpace{
+private:
+	int FlatNote[15];
+	int y1 = 0, column3;
+public:
+	PianoGameFlat();   //constructor for Flat Notes;
+	void SetData(bool &Bool1);    //modification of virtual function from class PianoGameSpace;
+};
+
+
+class PianoPresentation : virtual public Piano{
+private:
+	int k = 0;
+	int l = -3;
+	char key;
+public:
+	PianoPresentation();
+	void SpaceData();   //Presentation of white keys;
+	void SharpData();  //Presentations of Sharp keys;
+	void FlatData();           //Presentation of Flat keys;
+	void DeleteSpace();
+	void DeleteSharp();
+};
+
+
+#endif// PIANO_H
+
