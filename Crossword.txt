@@ -1,6 +1,16 @@
 
 
 
+//ура! Я его переписала) Новый вариант здесь 
+
+
+
+https://github.com/WhiteKNS/Crossword.git
+
+
+там он масштабируемый!)))
+
+
 
 #include <iostream>
 #include <string>
